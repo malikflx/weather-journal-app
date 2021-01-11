@@ -1,29 +1,36 @@
 // Personal API Key for OpenWeatherMap API
-let baseURL = 'http://api.openweathermap.org/data/2.5/weather?q=';
-let apiKey = '';
-// Event listener to add function to existing HTML DOM element
+const baseURL = 'http://api.openweathermap.org/data/2.5/weather?q=';
+const apiKey = '&appid=5aa24580971dd5a746c4ac39f1b5270e';
+
+// Event listener to add function to HTML DOM element
 document.getElementById('generate').addEventListener('click', performAction);
 
 /* Function called by event listener */
-function performAction(event) {
-  const newCity = document.getElementById('city').value;
-  getCity(baseURL, newCity, apiKey)
+function performAction(e) {
+  const city = document.getElementById('zip').value;
+  getCity(baseURL, city, apiKey)
+    .then(function (data) {
+      console.log(data)
+      //Adding data to POST Request
+      postData('/addData', { name: data.name, temp: data.main })
+    })
 }
 
 /* Function to GET Web API Data*/
 const getCity = async (baseURL, city, key) => {
-  const res = await fetch(baseURL + city + key)
+  const res = await fetch(baseURL + city + key);
   try {
     const data = await res.json();
     console.log(data)
     return data;
+
   } catch (error) {
     console.log('error', error);
   }
 }
 /* Function to POST data */
 const postData = async (url = '', data = {}) => {
-  const response = await fetch(url, {
+  const res = await fetch(url, {
     method: 'POST',
     credentials: 'same-origin',
     headers: {
@@ -33,19 +40,19 @@ const postData = async (url = '', data = {}) => {
   });
 
   try {
-    const newData = await response.json();
+    const newData = await res.json();
     return newData
   } catch (error) {
     console.log('error', error);
   }
 }
 
-/* Function to GET Project Data */
-const retrieveData = async (url = '') => {
-  const request = await fetch(url);
-  try {
-    const allData = await request.json()
-  } catch (error) {
-    console.log('error', error);
-  }
-}
+// /* Function to GET Project Data */
+// const retrieveData = async (url = '') => {
+//   const req = await fetch(url);
+//   try {
+//     const allData = await req.json()
+//   } catch (error) {
+//     console.log('error', error);
+//   }
+// }
