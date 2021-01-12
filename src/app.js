@@ -62,20 +62,20 @@ const updateUI = async () => {
   const req = await fetch('/all');
   try {
     const allData = await req.json();
-    document.getElementById('date').innerHTML = allData.date;
-    document.getElementById('temp').innerHTML = allData.temp;
-    document.getElementById('content').innerHTML = allData.content;
+    document.getElementById('date').innerHTML = `Date: ${allData.date}`;
+    document.getElementById('temp').innerHTML = `Temp: ${allData.temp}`;
+    document.getElementById('content').innerHTML = `Feelings: ${allData.content}`;
   } catch (error) {
     console.log('error', error);
   }
 }
 
-// /* Function to GET Project Data */
-// const retrieveData = async (url = '') => {
-//   const req = await fetch(url);
-//   try {
-//     const allData = await req.json()
-//   } catch (error) {
-//     console.log('error', error);
-//   }
-// }
+/* Function to GET Project Data */
+const retrieveData = async (url = '') => {
+  const req = await fetch(url);
+  try {
+    const allData = await req.json()
+  } catch (error) {
+    console.log('error', error);
+  }
+}
