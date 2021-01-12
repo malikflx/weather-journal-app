@@ -3,17 +3,28 @@ const baseURL = 'http://api.openweathermap.org/data/2.5/weather?q=';
 const apiKey = '&appid=5aa24580971dd5a746c4ac39f1b5270e';
 
 // Event listener to add function to HTML DOM element
-gitdocument.getElementById('generate').addEventListener('click', performAction);
+document.getElementById('generate').addEventListener('click', performAction);
+
+// Current Date
+let moment = new Date();
+let newDate = (moment.getMonth() + 1) + '.' + moment.getDate() + '.' + moment.getFullYear();
 
 /* Function called by event listener */
 function performAction(e) {
   const city = document.getElementById('zip').value;
+  const content = document.getElementById('feelings').value;
   getCity(baseURL, city, apiKey)
     .then(function (data) {
       console.log(data)
       //Adding data to POST Request
-      postData('/addData', { name: data.name, temp: data.main })
+      postData('/addData', {
+        date: newDate,
+        name: data.name,
+        temp: data.main.temp,
+        content
+      })
     })
+    .then(updateUI())
 }
 
 /* Function to GET Web API Data*/
@@ -42,6 +53,18 @@ const postData = async (url = '', data = {}) => {
   try {
     const newData = await res.json();
     return newData
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+
+const updateUI = async () => {
+  const req = await fetch('/all');
+  try {
+    const allData = await req.json();
+    document.getElementById('date').innerHTML = allData.date;
+    document.getElementById('temp').innerHTML = allData.temp;
+    document.getElementById('content').innerHTML = allData.content;
   } catch (error) {
     console.log('error', error);
   }

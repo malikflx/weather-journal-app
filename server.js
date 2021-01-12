@@ -43,6 +43,7 @@ function addData(req, res) {
 
   projectData['date'] = data.date;
   projectData['temp'] = data.temp;
+  projectData['content'] = data.content;
 
   res.send(projectData);
 }
