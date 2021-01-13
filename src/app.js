@@ -1,6 +1,6 @@
 // Personal API Key for OpenWeatherMap API
 const baseURL = 'http://api.openweathermap.org/data/2.5/weather?q=';
-const apiKey = '&appid=5aa24580971dd5a746c4ac39f1b5270e';
+const apiKey = '&appid=5aa24580971dd5a746c4ac39f1b5270e&units=imperial';
 
 // Event listener to add function to HTML DOM element
 document.getElementById('generate').addEventListener('click', performAction);
@@ -23,8 +23,9 @@ function performAction(e) {
         temp: data.main.temp,
         content
       })
+        .then(updateUI())
     })
-    .then(updateUI())
+
 }
 
 /* Function to GET Web API Data*/
